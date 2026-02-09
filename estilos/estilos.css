@@ -25,7 +25,6 @@ html, body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
     margin: 0;
     padding: 0;
     
@@ -42,25 +41,9 @@ h1, h2, h3, h4, h5, h6 {
 /* =========================================
 HEADER & NAVIGATION
 ========================================= */
-.info_conteiner{
-    margin-top: 50px;
-}
 .cabecera {
-    background-color: var(--color-titulo); /* Usa el verde oscuro */
-    position: fixed; 
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%; 
-    z-index: 1000;
-    box-shadow: 0 5px 5px rgba(90, 90, 90, 0.2);
-}
-
-.cabecera_contenido {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 0 20px;
 }
 
 .barra_Nav {
@@ -80,7 +63,54 @@ HEADER & NAVIGATION
     color: var(--color-titulo);
     border-radius: 50%;
 }
+.branding {
+    display: flex;
+    align-items:center;      /* Centra verticalmente */
+    justify-content: flex-start;  /* Centra horizontalmente en la página */
+    padding: 20px 0;          /* Espacio arriba y abajo del logo */
+    background-color: var(--color-fondo); /* Fondo blanco (o el color de tu body) */
+    gap: 15px;                /* Espacio entre la imagen y el texto */
+}
 
+.branding .logo-img {
+    height: 80px;  /* Ajusta el tamaño del logo aquí */
+    width: auto;
+}
+
+.contenedor-navegacion {
+    display: flex;
+    justify-content: center;
+    background-color: var(--color-titulo); /* Tu color de fondo */    
+    position: -webkit-sticky;
+    position: sticky;  /* Le dice al navegador que se "pegue" */
+    top: 0;            /* Le dice que se pegue justo en el borde superior */
+    z-index: 1000;     /* Asegura que la barra quede POR ENCIMA del texto al bajar */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Centrar el contenido dentro de la barra de color */
+.nav-contenido {
+    max-width: 100%;   /* Ancho máximo para que no se estire infinito */
+    margin: 0 auto;        /* Centrar el bloque */
+    display: flex;
+    justify-content: center; /* Centrar los enlaces */
+    padding: 0 20px;
+}
+
+
+/* AJUSTE RESPONSIVE (CELULAR) */
+@media (max-width: 768px) {
+    .branding {
+        flex-direction: column; /* Logo arriba, texto abajo */
+        text-align: center;
+    }
+    
+    .nav-contenido {
+        justify-content: space-between; /* Separar botón menú */
+        align-items: center;
+        padding: 10px 20px;
+    }
+}
 /* =========================================
 RESPONSIVE MENU (MOBILE)
 ========================================= */
@@ -260,13 +290,12 @@ SECCIÓN NOTICIAS (GRID STYLE)
 .contacto-flex {
     display: flex;
     align-items: flex-start;
-    gap: 40px;
     padding: 5px;
     border-radius: 12px;
 }
 
 .contacto-texto {
-    flex: 2;
+    flex: 1;
     color: var(--color-texto);
 }
 
@@ -298,7 +327,7 @@ SECCIÓN NOTICIAS (GRID STYLE)
 
 .contacto-imagen img {
     width: 100%;
-    max-width: 300px;
+    max-width: 550px;
     height: auto;
     border-radius: 10px;
     display: block;
@@ -343,7 +372,7 @@ TEAM SECTION
 
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
     gap: 30px; 
     justify-content: center;
     align-items: start;
@@ -351,12 +380,17 @@ TEAM SECTION
 
 .member-card {
     background-color: var(--color-fondo); 
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    padding: 25px;
+    overflow: hidden;
+    border: none;
     transition: transform 0.3s ease;
     text-align: left;
-    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
 }
 
 .member-card:hover {
@@ -364,11 +398,15 @@ TEAM SECTION
 }
 
 .member-photo {
-    max-width: 300px;
-    max-height: 300px;
-    /* Centrado de imagen si es necesario */
-    display: block;
-    margin: 0 auto 15px auto;
+    max-width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    object-position: center top;
+    display: block; 
+    margin: 0;
+}
+.member-info {
+    padding: 20px; /* Aquí le damos aire al texto, pero no a la imagen */
 }
 
 .member-header {
@@ -404,6 +442,7 @@ TEAM SECTION
     align-items: center;
     justify-content: center;
     transition: background 0.3s;
+    flex-shrink: 0;
 }
 
 .btn-plus:hover {
@@ -415,7 +454,7 @@ TEAM SECTION
     overflow: hidden;
     transition: max-height 0.4s ease-out;
     color: var(--color-texto);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 1.5;
 }
 
