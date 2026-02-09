@@ -40,6 +40,44 @@ document.addEventListener('DOMContentLoaded', () => {
         // Configurar el delay (5000 = 5 segundos)
         setTimeout(showSlides, 5000); 
     }
+    // 1. Intentamos buscar el modal
+var modal = document.getElementById("imageModal");
+
+// 2. EL CONDICIONAL DE SEGURIDAD
+// Si 'modal' existe (no es null), entramos. Si no existe, JavaScript se salta este bloque.
+if (modal) {
+    
+    var modalImg = document.getElementById("imgFull");
+    var span = document.getElementsByClassName("close")[0];
+    
+    // Seleccionamos las imágenes
+    var images = document.querySelectorAll(".news-img-container img");
+
+    // Lógica para abrir
+    images.forEach(function(img) {
+        img.onclick = function(){
+            modal.style.display = "flex"; 
+            modal.style.alignItems = "center"; 
+            modal.style.justifyContent = "center"; 
+            modalImg.src = this.src; 
+        }
+    });
+
+    // Lógica para cerrar con la X
+    // (Ponemos otro if por seguridad, por si borraste la X del html)
+    if (span) {
+        span.onclick = function() { 
+            modal.style.display = "none";
+        }
+    }
+
+    // Lógica para cerrar haciendo clic afuera
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
 });
 
 // --- 3. TARJETAS DEL EQUIPO ---
