@@ -19,6 +19,8 @@ GLOBAL STYLES
 ========================================= */
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html, body {
@@ -36,6 +38,7 @@ html, body {
 /* Forzamos que todos los títulos tengan el mismo color */
 h1, h2, h3, h4, h5, h6 {
     color: var(--color-titulo) !important;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 /* =========================================
@@ -67,13 +70,11 @@ HEADER & NAVIGATION
     display: flex;
     align-items:center;      /* Centra verticalmente */
     justify-content: flex-start;  /* Centra horizontalmente en la página */
-    padding: 20px 0;          /* Espacio arriba y abajo del logo */
-    background-color: var(--color-fondo); /* Fondo blanco (o el color de tu body) */
-    gap: 15px;                /* Espacio entre la imagen y el texto */
+    background-color: white; /* Fondo blanco (o el color de tu body) */                /* Espacio entre la imagen y el texto */
 }
 
 .branding .logo-img {
-    height: 80px;  /* Ajusta el tamaño del logo aquí */
+    height: 150px; 
     width: auto;
 }
 
@@ -148,6 +149,7 @@ RESPONSIVE MENU (MOBILE)
         padding: 15px;
         border-bottom: 1px solid #555; 
     }
+    
 }
 
 /* =========================================
@@ -155,7 +157,6 @@ HOME SECTION
 ========================================= */
 .titulo-contenedor {
     color: var(--color-texto);
-    display: flex; 
     gap: 20px;
     padding: 40px;  
     margin: 0 auto;     
@@ -163,22 +164,54 @@ HOME SECTION
     font-size: 15px;
 }
 
-.titulo-imagen {
-    flex: 0 0 auto; 
-    max-width: 20%;
-}
-
-.titulo-imagen img {
+.intro-imagen {
+    position: relative; /* Clave: define los límites para los elementos absolutos */
     width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 10px;
+    height: 60vh;       /* Altura: 80% de la pantalla (ajusta a tu gusto) */
+    margin: 0;
+    overflow: hidden;   /* Para que nada se salga de los bordes */
+    display: flex;
+    align-items: center; 
+    z-index: 1;
 }
 
-.titulo-texto h1 {
-    margin-top: 0;
-    color: var(--color-titulo); 
-    font-size: 48px;
+.intro-imagen img {
+    position: absolute; /* La sacamos del flujo normal */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* MAGIA: Recorta la imagen para llenar el hueco sin deformarse */
+    z-index: 1;
+}
+.contenedor-texto {
+    z-index: 3;         /* Nivel 3 (El más alto, encima de todo) */
+    text-align:left;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    max-width: 900px;
+    color: white;
+}
+.p1{
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.intro-imagen figcaption {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    z-index: 3;         /* También encima de todo */
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.intro-imagen figcaption a {
+    color: white;
+    text-decoration: none;
 }
 
 /* =========================================
@@ -206,7 +239,7 @@ SECCIÓN NOTICIAS (GRID STYLE)
 /* LA CUADRÍCULA (GRID) */
 .noticias-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
 }
 
@@ -215,7 +248,8 @@ SECCIÓN NOTICIAS (GRID STYLE)
     background-color: var(--color-fondo2);
     border: 1px solid #ddd;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -225,25 +259,25 @@ SECCIÓN NOTICIAS (GRID STYLE)
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     border-color: var(--color-titulo);
+    z-index: 100;
 }
 
 /* Imagen de la noticia */
 .news-img-container {
     width: 100%;
-    height: 200px;
-    overflow: hidden;
+    height: auto;
+    position: relative;
+    z-index: 10;
 }
 
 .news-img-container img {
     width: 100%;
     cursor: pointer;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.news-card:hover .news-img-container img {
-    transform: scale(1.05);
+    height: auto;
+    object-fit: contain;
+    display: block;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    border-radius: 8px;
 }
 .modal {
     display: none; /* Oculto por defecto */
@@ -301,6 +335,9 @@ SECCIÓN NOTICIAS (GRID STYLE)
     .modal-content {
         width: 100%;
     }
+    .contenedor-texto p1{
+    font-size: 2.5rem;
+}
 }
 /* Contenido de texto */
 .news-content {
@@ -433,7 +470,6 @@ TEAM SECTION
 
 .member-card {
     background-color: var(--color-fondo); 
-    max-width: 400px;
     margin: 0 auto;
     width: 100%;
     border-radius: 15px;
@@ -452,14 +488,13 @@ TEAM SECTION
 
 .member-photo {
     max-width: 100%;
-    max-height: 300px;
     object-fit: cover;
-    object-position: center top;
+    object-position: center;
     display: block; 
     margin: 0;
 }
 .member-info {
-    padding: 20px; /* Aquí le damos aire al texto, pero no a la imagen */
+    padding: 20px; 
 }
 
 .member-header {
@@ -522,7 +557,7 @@ TEAM SECTION
 RESEARCH SECTION
 ========================================= */
 .research-banner {
-    margin-top: 45px;
+    margin-top: 5px;
     width: 100%;
     height: 400px;
     overflow: hidden;
